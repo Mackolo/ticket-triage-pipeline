@@ -21,10 +21,10 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
 
       - name: Build image
-        run: docker build -t ghcr.io/Mackolo/ticket-triage-api:${IMAGE_TAG} build_context
+        run: docker build -t ghcr.io/mackolo/ticket-triage-api:${IMAGE_TAG} build_context
 
       - name: Push image
-        run: docker push ghcr.io/Mackolo/ticket-triage-api:${IMAGE_TAG}
+        run: docker push ghcr.io/mackolo/ticket-triage-api:${IMAGE_TAG}
 
       - name: Update deployment manifest
         run: |
@@ -40,7 +40,7 @@ jobs:
 
       - name: Run the image and smoke test it
         run: |
-          docker run -d -p 8000:8000 --name smoke-test ghcr.io/Mackolo/ticket-triage-api:${IMAGE_TAG}
+          docker run -d -p 8000:8000 --name smoke-test ghcr.io/mackolo/ticket-triage-api:${IMAGE_TAG}
           for i in $(seq 1 10); do
             curl -sf http://localhost:8000/healthz && break
             sleep 2
